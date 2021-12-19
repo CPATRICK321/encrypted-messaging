@@ -60,6 +60,8 @@ class App extends Component {
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
+      localStorage.setItem('user', username)
+      window.location.href = "/dashboard";
       console.log('Got the token: ', result.data)
       alert("Success")
     }else{

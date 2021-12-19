@@ -2,12 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Dashboard from './Dashboard'
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Routes>
+      <Route path="welcome" element={ <App/> } />
+      <Route path="/dashboard" element={ <Dashboard/> } />
+    </Routes>
+  </Router>,
   document.getElementById('root')
 );
 

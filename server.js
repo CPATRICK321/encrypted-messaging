@@ -4,6 +4,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./models/user')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const JWT_SECRET = 'jkj'
 
 
 
@@ -20,8 +23,39 @@ app.use(cors())
 app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
 
+function veryifyJWT(token){
+    const user = jwt.verify(token, JWT_SECRET)
+}
+
 app.post('/api/login', async (req, res) => {
-    return res.json({ status: 'ok', data: 'token:)'})
+
+    const { username, password } = req.body 
+    const user = await User.findOne({ username }).lean()
+
+    if (!user){
+        //user DNE
+        return res.json({ status: 'error', error: 'Invalid username'})
+    }else{
+        console.log("ThIS IS MY USER" + user)
+    }
+
+    const tof = await bcrypt.compare(password, user.password)
+
+    if(tof){
+        //successful
+
+        const token = jwt.sign({ 
+            id: user._id, 
+            username: user.username 
+        }, JWT_SECRET)
+
+        return res.json({ status: 'ok', data: token})
+    }else{
+        //unsuccessful
+        return res.json({ status: 'error', error: 'Invalid username and password'})
+    }
+
+    // return res.json({ status: 'ok', data: 'token:)'})
 })
 
 app.post('/api/register', async (req, res) => {
@@ -62,7 +96,7 @@ app.post('/api/register', async (req, res) => {
 })
 
 app.listen(3333, () => {
-    console.log('Server at 3000')
+    console.log('Server at 3333')
 })
 
 
