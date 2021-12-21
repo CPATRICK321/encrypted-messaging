@@ -3,6 +3,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./models/user')
+const Message = require('./models/message')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -93,6 +94,65 @@ app.post('/api/register', async (req, res) => {
     console.log(await bcrypt.hash(password, 10))
 
     return res.json({status: 'ok'})
+})
+
+app.post('/api/addcontact', async (req, res) => {
+    const { currentUser, potentialContact } = req.body
+
+    console.log('touser is ' + currentUser)
+
+    const to = await User.findOne({ potentialContact }).lean()
+
+    if(!to){
+        return res.json({ statis: 'error', error: 'User does not exist'})
+    }
+
+    const user = await User.findOne({ currentUser })
+
+    if(!user){
+        return res.json({ status: 'error', error: 'Huh?'})
+    }else{
+        console.log("adding " + potentialContact)
+        user.contacts.push(potentialContact)
+        await user.save()
+        return res.json({ status: 'ok'})
+    }
+
+})
+
+app.post('/api/getcontacts', async (req, res) => {
+    const { fromUser } = req.body
+
+    const user = await User.findOne({ fromUser }).lean()
+
+    if (!user){
+        return res.json({ statis: 'error', error: 'Unknown error'})
+    }else{
+        const contacts = user.contacts
+        console.log("my contacts are " + contacts)
+        return res.json({ status: 'ok', data: contacts})
+    }
+
+})
+
+app.post('/api/getmessages', async (req, res) => {
+    const { fromUser } = req.body
+
+
+})
+
+
+app.post('/api/sendmessage', async (req, res) => {
+    const { to, from, content } = req.body
+
+    var newMessage = new Message({
+        to,
+        from,
+        content
+    })
+
+    newMessage.save()
+
 })
 
 app.listen(3333, () => {

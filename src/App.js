@@ -34,7 +34,7 @@ class App extends Component {
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-      alert("Success")
+      //success
     }else{
       alert(result.error)
     }
