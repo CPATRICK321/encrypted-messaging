@@ -101,21 +101,22 @@ app.post('/api/addcontact', async (req, res) => {
 
     console.log('touser is ' + currentUser)
 
-    const to = await User.findOne({ potentialContact }).lean()
+    const to = await User.findOne({ username: potentialContact }).lean()
 
     if(!to){
         return res.json({ statis: 'error', error: 'User does not exist'})
-    }
-
-    const user = await User.findOne({ currentUser })
-
-    if(!user){
-        return res.json({ status: 'error', error: 'Huh?'})
     }else{
-        console.log("adding " + potentialContact)
-        user.contacts.push(potentialContact)
-        await user.save()
-        return res.json({ status: 'ok'})
+        console.log("FOUND " + to.username)
+        const user = await User.findOne({ username: currentUser })
+
+        if(!user){
+            return res.json({ status: 'error', error: 'Huh?'})
+        }else{
+            console.log("adding " + potentialContact)
+            user.contacts.push(potentialContact)
+            await user.save()
+            return res.json({ status: 'ok'})
+        }
     }
 
 })
@@ -136,8 +137,20 @@ app.post('/api/getcontacts', async (req, res) => {
 })
 
 app.post('/api/getmessages', async (req, res) => {
-    const { fromUser } = req.body
+    const { currentUser, toUser } = req.body
+    console.log("message from " + currentUser + " going to " + toUser + toUser.length)
 
+    const sieve = {
+        $or: [{ from: toUser, to: currentUser }, { from: currentUser, to: toUser }]
+    }
+
+    const messageObjects = await Message.find(sieve)
+    const messages = []
+    for (let i = 0; i < messageObjects.length; i++){
+        messages.push(messageObjects[i].content)
+    }
+
+    return res.json({status: 'ok', data: messages})
 
 })
 
@@ -152,6 +165,8 @@ app.post('/api/sendmessage', async (req, res) => {
     })
 
     newMessage.save()
+
+    return res.json({ status: 'ok'})
 
 })
 

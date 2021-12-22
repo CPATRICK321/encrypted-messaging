@@ -26,6 +26,11 @@ class Dashboard extends Component {
 
     logout(){
         localStorage.clear();
+        this.setState({
+            to: '',
+            contacts: [],
+            messages: []
+        })
         window.location.href = "/welcome";
     }
 
@@ -82,9 +87,15 @@ class Dashboard extends Component {
         }
     }
 
+    async addMessage(){
+
+    }
+
     async populateMessages(){
         const currentUser = localStorage.getItem('user')
         const toUser = this.state.to
+        console.log(toUser.length)
+
 
         const result = await fetch('http://localhost:3333/api/getmessages', {
             method: 'POST',
@@ -112,15 +123,20 @@ class Dashboard extends Component {
     updateTo(e){
         console.log(e.target)
         const newTo = e.target.innerHTML
+        console.log("NEW TO HAS LENGTH "+ newTo.length)
         this.setState({
             to: newTo
+        }, () => {
+            this.populateMessages()
         })
         console.log('updated to to '+ newTo)
+        
     }
 
     async sendMessage(){
-        const currentUser = localStorage.getItem('user')
-        const toUser = this.state.to
+        const from = localStorage.getItem('user')
+        const to = this.state.to
+        const content = document.getElementById('messaageContent').value
 
         const result = await fetch('http://localhost:3333/api/sendmessage', {
             method: 'POST',
@@ -129,13 +145,20 @@ class Dashboard extends Component {
             'Accept': 'application/json'
             },
             body: JSON.stringify({
-                currentUser,
-                toUser
+                from,
+                to,
+                content
             })
         }).then((res) => res.json())
 
         if(result.status === 'ok'){
-            console.log('contacts updated')
+            console.log('sent message')
+            //update messages state
+
+            this.setState({
+                messages: this.state.messages.concat(content)
+            })
+
         }else{
             alert(result.error)
         }
@@ -157,7 +180,7 @@ class Dashboard extends Component {
                 <h1>Contact List</h1>
                 <ul>
                     {this.state.contacts.map(function(username, i){
-                        return <li key={i} onClick={this.updateTo}> {username}</li>;
+                        return <div key={i} onClick={this.updateTo}>{username}</div>;
                     }, this)}
                 </ul>
                 <br></br>
@@ -168,7 +191,7 @@ class Dashboard extends Component {
                     }, this)}
                 </ul>
                 <input type="text" id="messaageContent"></input>
-                <button>Send Message</button>
+                <button onClick={this.sendMessage}>Send Message</button>
             </div>
         );
     }
