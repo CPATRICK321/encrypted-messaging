@@ -61,6 +61,7 @@ class App extends Component {
 
     if(result.status === 'ok'){
       localStorage.setItem('user', username)
+      localStorage.setItem('JWTtoken', result.data)
       window.location.href = "/dashboard";
       console.log('Got the token: ', result.data)
       alert("Success")

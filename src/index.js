@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Dashboard from './Dashboard'
 import reportWebVitals from './reportWebVitals';
+import { socket } from './service/socket'
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,7 +14,7 @@ import {
 ReactDOM.render(
   <Router>
     <Routes>
-      <Route path="welcome" element={ <App/> } />
+      <Route path="/" element={ <App/> } />
       <Route path="/dashboard" element={ <Dashboard/> } />
     </Routes>
   </Router>,
@@ -24,3 +25,12 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+
+// app.listen(3333, () => {
+//     console.log('Server at 3333')
+// })
+
+
+
