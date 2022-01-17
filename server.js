@@ -6,8 +6,9 @@ const User = require('./models/user')
 const Message = require('./models/message')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
-const JWT_SECRET = 'jkj'
+const JWT_SECRET = process.env.REACT_APP_JWT_SECRET
 let activeUsersPublicKey = new Map()
 let activeUsersID = new Map()  
 let idToUser = new Map()
@@ -16,7 +17,7 @@ let userToState = new Map()
 const crypto = require('asymmetric-crypto')
 const keyPair = crypto.keyPair()
 
-mongoose.connect('mongodb+srv://cpatrick67135:pass123word@encrypted-messaging-app.46hse.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(process.env.REACT_APP_MONGODB_CONNECTION, {
     useNewUrlParser: true,  
     useUnifiedTopology: true,
 })

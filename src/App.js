@@ -30,7 +30,7 @@ class App extends Component {
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-      //success
+      alert("Successful register")
     }else{
       alert(result.error)
     }
@@ -59,7 +59,7 @@ class App extends Component {
       localStorage.setItem('JWTtoken', result.data)
       window.location.href = "/dashboard";
       console.log('Got the token: ', result.data)
-      alert("Success")
+      // alert("Success")
     }else{
       alert(result.error)
     }

@@ -158,6 +158,41 @@ html {
  overflow: hidden;
 }
 
+#add-contact{
+    border: 0px;
+    border-radius: 5px;
+    color: var(--body-color);
+    font-size: large;
+    margin-right: 20px;
+    padding: 5px;
+    cursor:pointer;
+
+}
+
+#send{
+    border: 0px;
+    color: var(--body-color);
+    font-size: large;
+    margin-right: 5px;
+    padding: 5px;
+    border-radius: 5px;
+
+    cursor:pointer;
+    
+
+}
+
+#log-out{
+    background-color: white;
+    color: var(--theme-color);
+    border-radius: 5px;
+    border-color: var(--theme-color);
+    height: 50px;
+    width: 100px;
+    cursor:pointer;
+
+}
+
 .conversation-area,
 .detail-area {
  width: 340px;
