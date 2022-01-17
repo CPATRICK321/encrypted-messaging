@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+// import './App.css'
 import App from './App';
 import Dashboard from './Dashboard'
 import reportWebVitals from './reportWebVitals';
-import { socket } from './service/socket'
 import {
   BrowserRouter as Router,
   Routes,

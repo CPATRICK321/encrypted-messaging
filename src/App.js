@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './App.css'
+
 
 class App extends Component {
 
@@ -10,15 +12,9 @@ class App extends Component {
   
   }
 
-  componentDidMount(){
-
-    const form = document.getElementById('reg-form')
-    form.addEventListener('submit', this.registerUser)
-  }
-
   async registerUser(){
-    const username = document.getElementById('username').value
-    const password = document.getElementById('password').value
+    const username = document.getElementById('Username').value
+    const password = document.getElementById('Password').value
 
 
     const result = await fetch('http://localhost:3333/api/register', {
@@ -43,9 +39,8 @@ class App extends Component {
   }
 
   async loginUser(){
-    const username = document.getElementById('username').value
-    const password = document.getElementById('password').value
-
+    const username = document.getElementById('Username').value
+    const password = document.getElementById('Password').value
 
     const result = await fetch('http://localhost:3333/api/login', {
       method: 'POST',
@@ -73,23 +68,51 @@ class App extends Component {
   }
 
 
-  render() {
-    return (
-      <div className="App">
+  // render() {
+  //   return (
+  //     <div className="App">
       
-      <h1>Welcome</h1>
-      <div id="reg-form">
-        <input autoComplete="off" type="text" placeholder="username" id="username" ></input>
-        <input autoComplete="off" type="password" placeholder="password" id="password" ></input>
-        <button type="submit" value="Submit" onClick={this.registerUser}>Register</button> 
-        <button type="submit" value="Submit" onClick={this.loginUser}>Login</button> 
+  //     <h1>Welcome</h1>
+  //     <div id="reg-form">
+  //       <input autoComplete="off" type="text" placeholder="username" id="username" ></input>
+  //       <input autoComplete="off" type="password" placeholder="password" id="password" ></input>
+  //       <button type="submit" value="Submit" onClick={this.registerUser}>Register</button> 
+  //       <button type="submit" value="Submit" onClick={this.loginUser}>Login</button> 
 
+  //     </div>
+
+  //     <script>
+  //     </script>
+  //   </div>
+  //   );
+  // }
+  render(){
+    return(
+      <div className="welcomeWrapper">
+        <div className="container">
+          <h1>Welcome</h1>
+          <div className="form">
+            <input className="welcomeInput" autoComplete="off" type="text" placeholder="Username" id="Username"/>
+            <input className="welcomeInput" autoComplete="off" type="password" placeholder="Password" id="Password"/>
+            <button className="welcomeButton" id="register-button" onClick={this.registerUser}>Register</button>
+            <button className="welcomeButton" id="login-button" onClick={this.loginUser}>Login</button>
+          </div>
+        </div>
+      
+        <ul className="bg-bubbles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       </div>
-
-      <script>
-      </script>
-    </div>
-    );
+    )
   }
 }
 
