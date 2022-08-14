@@ -2,7 +2,7 @@
 
 # End-To-End Encrypted Messaging
 
-The .env file, which was ignored, contains values for "REACT_APP_MONGODB_CONNECTION" (create a collection at mongodb atlas to get your own) and "REACT_APP_JWT_SECRET". It also contains "GENERATE_SOURCEMAP=false"
+The .env file, which was ignored, contains values for "REACT_APP_MONGODB_CONNECTION" (create a collection at mongodb atlas to get your own) and "REACT_APP_JWT_SECRET" (random string). It also contains "GENERATE_SOURCEMAP=false"
 
 ## End-To-End?
 
